@@ -13,7 +13,7 @@ const extractArguments = () => {
 	const destArg = args[1] || '';
 
 	if (!sourceArg) {
-		console.log(`Please provide source directory argument!`);
+		console.error(`Please provide source directory as the first argument!`);
 		exit(255);
 	}
 
@@ -38,7 +38,8 @@ const getExtensionRoot = (sourceArg) => {
 	const appCodeContents = fs.readdirSync(appCodePath);
 
 	if (appCodeContents.length > 1) {
-		throw new Error('More than one publisher in app/code! Unexpected, aborting.');
+        console.error('More than one publisher in app/code! Unexpected, aborting.');
+        exit(255);
 	}
 
 	const publisherName = appCodeContents[0];
@@ -46,7 +47,8 @@ const getExtensionRoot = (sourceArg) => {
 	const publisherContents = fs.readdirSync(publisherPath);
 
 	if (publisherContents.length > 1) {
-		throw new Error('More than one extension in app/code/<publisher>! Unexpected, aborting.');
+        console.error('More than one extension in app/code/<publisher>! Unexpected, aborting.');
+        exit(255);
 	}
 
 	const extensionName = publisherContents[0];
@@ -69,7 +71,8 @@ const getPackageName = (root) => {
 		return name;
 	}
 
-	throw new Error(`Could not find neither package.json nor composer.json at ${root}!`);
+    console.error(`Could not find neither package.json nor composer.json at ${root}! Unexpected, aborting.`);
+    exit(255);
 }
 
 /**

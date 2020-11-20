@@ -2,13 +2,17 @@ const fs = require('fs-extra');
 const path = require('path');
 const { exec } = require('child_process');
 const { getDefaultPublisherName } = require('../util/defaults');
+const { exit } = require('process');
 
 const initNpmModule = (targetPath, pkgName, pkgPublisher = getDefaultPublisherName()) => {
     exec(
         'npm init --yes',
         { cwd: targetPath },
         (error, stdout, stderr) => {
-            if (error) throw error;
+            if (error) {
+                console.error(error);
+                exit(255);
+            }
 
             // Read the generated package.json
             const packageJsonPath = path.join(targetPath, 'package.json');

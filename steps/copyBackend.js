@@ -1,5 +1,6 @@
 const fs = require('fs-extra');
 const path = require('path');
+const { exit } = require('process');
 
 const copyFilesIfExist = require('../util/copyFilesIfExist');
 const { copyFilesFE } = require('./copyFrontend');
@@ -21,7 +22,8 @@ const getBeSource = (source) => {
 
 const copyBackend = (source, beDestination) => {
 	if (fs.existsSync(beDestination)) {
-		throw new Error(`Directory ${beDestination} already exists! Aborting.`);
+        console.error(`Directory ${beDestination} already exists! Aborting.`);
+        exit(255);
 	}
 	fs.mkdirSync(beDestination);
 
