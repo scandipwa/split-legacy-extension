@@ -1,13 +1,8 @@
 const fs = require('fs-extra');
 const path = require('path');
-const copyFilesIfExist = require('../util/copyFilesIfExist');
 
-const ignoreFiles = [
-	'package-lock.json',
-	'package.json',
-	'.npmrc',
-	'scandipwa'
-];
+const copyFilesIfExist = require('../util/copyFilesIfExist');
+const { copyFilesFE } = require('./copyFrontend');
 
 const copyFilesBE = [
 	'composer.json',
@@ -24,7 +19,7 @@ const getBeSource = (source) => {
 	return path.join(source, 'src');
 }
 
-module.exports = (source, beDestination) => {
+const copyBackend = (source, beDestination) => {
 	if (fs.existsSync(beDestination)) {
 		throw new Error(`Directory ${beDestination} already exists! Aborting.`);
 	}
@@ -36,9 +31,14 @@ module.exports = (source, beDestination) => {
 		beSource,
 		beDestination,
 		{
-			filter: (src, dest) => !ignoreFiles.includes(path.basename(src))
+			filter: (src, dest) => !copyFilesFE.find(entry => src.endsWith(entry))
 		}
 	)
 
 	copyFilesIfExist(source, beDestination, copyFilesBE);
+}
+
+module.exports = {
+    copyBackend,
+    copyFilesBE
 }

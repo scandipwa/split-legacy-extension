@@ -1,20 +1,21 @@
 const DEFAULT_PUBLISHER_NAME = 'scandipwa';
 
-const getDefaultPublisherNameGetter = (extensionName) => {
-    let warned = false;
-    return () => {
-        if (!warned) {
-            console.warn(
-                `Publisher name not found for extension ${extensionName}\n` +
-                `Defaulting to ${DEFAULT_PUBLISHER_NAME}`
-            );
-            warned = true;
-        }
+const warned = {
+    publisher: false
+};
 
-        return DEFAULT_PUBLISHER_NAME;
+const getDefaultPublisherName = () => {
+    if (!warned.publisher) {
+        console.warn(
+            `Publisher name not found for this extension!\n` +
+            `Defaulting to ${DEFAULT_PUBLISHER_NAME}`
+        );
+        warned.publisher = true;
     }
+
+    return DEFAULT_PUBLISHER_NAME;
 }
 
 module.exports = {
-	getDefaultPublisherName: getDefaultPublisherNameGetter()
+	getDefaultPublisherName
 };
