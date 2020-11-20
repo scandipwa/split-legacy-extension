@@ -1,5 +1,5 @@
 {
-  "name": "@scandipwa/transform-legacy-extension",
+  "name": "@scandipwa/split-legacy-extension",
   "version": "1.0.0",
   "description": "ScandiPWA tool: separate FE and BE extension's parts",
   "main": "index.js",

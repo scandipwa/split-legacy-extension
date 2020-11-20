@@ -6,9 +6,7 @@ const warned = {
 
 const getDefaultPublisherName = () => {
     if (!warned.publisher) {
-        console.warn(
-            `Publisher name not found for this extension! Defaulting to ${DEFAULT_PUBLISHER_NAME}`
-        );
+        console.log(`Publisher name not found for this extension! Defaulting to ${DEFAULT_PUBLISHER_NAME}`);
         warned.publisher = true;
     }
 
