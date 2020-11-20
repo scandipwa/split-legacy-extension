@@ -9,7 +9,6 @@ const copyFilesFE = [
 	'README.md',
     '.npmrc',
     '.eslintrc',
-    '.editorconfig',
     'src/scandipwa/app'
 ];
 
