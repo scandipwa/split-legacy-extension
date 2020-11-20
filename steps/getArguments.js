@@ -18,8 +18,8 @@ const extractArguments = () => {
 	}
 
 	return {
-		sourceArg: path.resolve(process.cwd(), sourceArg),
-		destArg: path.resolve(process.cwd(), destArg)
+		sourceArg,
+		destArg
 	}
 }
 
@@ -27,13 +27,14 @@ const extractArguments = () => {
  * @returns {string}
  */
 const getExtensionRoot = (sourceArg) => {
+    const sourceArgAbsolute = path.resolve(process.cwd(), sourceArg);
 	const isNested = root => /^(.\/)?app$/.test(root);
 
-	if (!isNested(sourceArg)) {
-		return path.resolve(process.cwd(), sourceArg);
+	if (!isNested(sourceArgAbsolute)) {
+		return path.resolve(process.cwd(), sourceArgAbsolute);
 	}
 
-	const appCodePath = path.join(sourceArg, 'app', 'code');
+	const appCodePath = path.join(sourceArgAbsolute, 'app', 'code');
 	const appCodeContents = fs.readdirSync(appCodePath);
 
 	if (appCodeContents.length > 1) {
@@ -106,15 +107,17 @@ const getArguments = () => {
 	const {
 		publisherName,
 		extensionName
-	} = getExtensionMeta(sourceArg);
+	} = getExtensionMeta(source);
 
-    const newName = `${publisherName}--${extensionName}`;
+    const newName = `@${publisherName}_${extensionName}`;
 
-	const feDestination = path.resolve(destArg, `FE__${newName}`);
-	const beDestination = path.resolve(destArg, `BE__${newName}`);
+    const destination = path.resolve(process.cwd(), destArg || newName);
+	const feDestination = path.resolve(destination, `frontend`);
+	const beDestination = path.resolve(destination, `backend`);
 
 	return {
-		source,
+        source,
+        destination,
 		feDestination,
 		beDestination
 	}

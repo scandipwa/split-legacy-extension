@@ -9,9 +9,7 @@ module.exports = function(basePath) {
 	if (!feExists) {
 		console.log(
 			'This extension does not contain a FE part.\n' +
-			'Or it does, but only SW stuff.\n' +
-			'Hence, transforming it is unnecessary, this is a BE-only extension.\n' +
-			'Or it is of non-CSA theme.'
+			'Hence, transforming it is unnecessary, this is a BE-only extension.\n'
 		);
 
 		exit(0);
