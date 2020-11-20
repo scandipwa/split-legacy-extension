@@ -4,7 +4,7 @@ This module is made to split FE and BE parts of a ScandiPWA extension.
 
 ### How to use - important!
 
-1. Run `scandipwa-split-extension <source path> [<destination path>]`
+1. Run `split-legacy-extension <source path> [<destination path>]`
 2. See that in your `<destination path>` directory appeared two directories: `frontend` and `backend`. These directories are npm and composer modules, correspondingly. If you do not provide the destination path it is built as follows: `@publisher_extension-name`
 3. Validate the new modules. Things to verify:
 
