@@ -27,7 +27,7 @@ const initNpmModule = (targetPath, pkgName, pkgPublisher = getDefaultPublisherNa
             }
 
             // Write back to the file
-            fs.writeFileSync(JSON.stringify(packageJson));
+            fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
 
             console.warn(
                 `An npm package has been initialized at ${targetPath}\n` +
