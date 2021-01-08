@@ -9,7 +9,7 @@ const leadingSrcDirectoryRegExp = /^(.\/)?src(\/|$)/;
  * @param {object} composerJson
  */
 const removePsr4 = (composerJson) => {
-	if (!'autoload' in composerJson || !'psr-4' in composerJson.autoload) {
+	if (!('autoload' in composerJson) || !('psr-4' in composerJson.autoload)) {
 		return;
 	}
 
@@ -37,8 +37,8 @@ const removePsr4 = (composerJson) => {
  */
 const removeSrcFromAutoload = (composerJson) => {
 	if (
-		!'autoload' in composerJson ||
-		!'files' in composerJson.autoload ||
+		!('autoload' in composerJson) ||
+		!('files' in composerJson.autoload) ||
 		!Array.isArray(composerJson.autoload.files)
 	) {
 		return;
