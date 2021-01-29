@@ -4,6 +4,8 @@ const { execSync } = require('child_process');
 const { exit } = require('process');
 
 const deleteEmptySubdirectories = require('../util/deleteEmptySubdirectories');
+const deleteGitDirectory = require('../util/deleteGitDirectory');
+const initializeGitRepository = require('../util/initializeGitRepository');
 
 const initNpmModule = (targetPath) => {
     execSync(
@@ -44,7 +46,7 @@ const updatePackageJson = (targetPath, hasInitialised, composerPackageName) => {
 
     if (hasInitialised && composerPackageName) {
         // Set proper name
-        packageJson.name = composerPackageName;
+        packageJson.name = composerPackageName.replace('-graphql', '');
     }
 
     // Set scandipwa field

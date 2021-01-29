@@ -3,6 +3,7 @@ const fs = require('fs');
 
 const deleteEmptySubdirectories = require('../util/deleteEmptySubdirectories');
 const deleteGitDirectory = require('../util/deleteGitDirectory');
+const initializeGitRepository = require('../util/initializeGitRepository');
 
 const leadingSrcDirectoryRegExp = /^(.\/)?src(\/|$)/;
 
