@@ -10,7 +10,9 @@ const copyFilesFE = [
 	'README.md',
     '.npmrc',
     '.eslintrc',
-    'src/scandipwa/app'
+    'jsconfig.json',
+    '.gitignore',
+    { 'src/scandipwa/app': 'src/' }
 ];
 
 const copyFrontend = (source, feRoot) => {

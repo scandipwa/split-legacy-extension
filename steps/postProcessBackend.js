@@ -1,6 +1,9 @@
 const path = require('path');
 const fs = require('fs');
 
+const deleteEmptySubdirectories = require('../util/deleteEmptySubdirectories');
+const deleteGitDirectory = require('../util/deleteGitDirectory');
+
 const leadingSrcDirectoryRegExp = /^(.\/)?src(\/|$)/;
 
 /**
@@ -9,7 +12,7 @@ const leadingSrcDirectoryRegExp = /^(.\/)?src(\/|$)/;
  * @param {object} composerJson
  */
 const removePsr4 = (composerJson) => {
-	if (!'autoload' in composerJson || !'psr-4' in composerJson.autoload) {
+	if (!composerJson.autoload || !composerJson.autoload['psr-4']) {
 		return;
 	}
 
@@ -37,8 +40,8 @@ const removePsr4 = (composerJson) => {
  */
 const removeSrcFromAutoload = (composerJson) => {
 	if (
-		!'autoload' in composerJson ||
-		!'files' in composerJson.autoload ||
+		!composerJson.autoload ||
+		!composerJson.autoload.files ||
 		!Array.isArray(composerJson.autoload.files)
 	) {
 		return;
@@ -49,7 +52,7 @@ const removeSrcFromAutoload = (composerJson) => {
 	)
 }
 
-module.exports = (beDestination) => {
+module.exports = ({ beDestination }) => {
 	const composerJsonPath = path.join(beDestination, 'composer.json');
 
 	if (fs.existsSync(composerJsonPath)) {
@@ -58,6 +61,16 @@ module.exports = (beDestination) => {
 		removePsr4(composerJson);
 		removeSrcFromAutoload(composerJson);
 
-		fs.writeFileSync(composerJsonPath, JSON.stringify(composerJson, null, 4));
+		fs.writeFileSync(
+			composerJsonPath, 
+			JSON.stringify(composerJson, null, 4)
+		);
 	}
+
+    // Clean up
+	deleteEmptySubdirectories(beDestination);
+	deleteGitDirectory(beDestination);
+
+	// Initialize git repository
+	initializeGitRepository(beDestination);
 }

@@ -5,11 +5,19 @@ const { exit } = require('process');
 const copyFilesIfExist = require('../util/copyFilesIfExist');
 const { copyFilesFE } = require('./copyFrontend');
 
+const notCopyFilesBE = [
+	...copyFilesFE,
+	'src/scandipwa',
+	'scandipwa',
+	'.git'
+];
+
 const copyFilesBE = [
 	'composer.json',
 	'composer.lock',
 	'LICENSE',
-	'README.md'
+	'README.md',
+	'.gitignore'
 ]
 
 const getBeSource = (source) => {
@@ -32,8 +40,16 @@ const copyBackend = (source, beDestination) => {
 	fs.copySync(
 		beSource,
 		beDestination,
-		{
-			filter: (src, dest) => !copyFilesFE.find(entry => src.endsWith(entry))
+		{ 
+			filter: (file) => !notCopyFilesBE.find(
+				entry => {
+					if (typeof entry === 'string') {
+						return file.startsWith(path.join(beSource, entry));
+					}	
+
+					return file.startsWith(path.join(beSource, Object.keys(entry)[0]));
+				}
+			) 
 		}
 	)
 
