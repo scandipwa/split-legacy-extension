@@ -1,17 +1,24 @@
 const { execSync } = require('child_process');
 
 const initializeGitRepository = (cwd) => {
-    execSync(
-        'git init',
-        { cwd },
-        (error) => {
-            if (error) {
-                console.error(error);
-            }
+    try {
+        execSync('git init', { cwd });
+    } catch (error) {
+        console.error(error);
+        console.warn('Unable to initialize git repository! Please, do that manually.');
 
-            console.warn('Unable to initialize git repository! Please, do that manually.');
-        }
-    );
+        return;
+    } 
+
+    try {
+        execSync('git add ./*', { cwd });
+        execSync('git commit -m "Partly refactor the legacy module"', { cwd });
+    } catch (error) {
+        console.error(error);
+        console.warn('Unable to commit to the new repository! Please, do that manually.');
+        
+        return;
+    } 
 }
 
 module.exports = initializeGitRepository;
